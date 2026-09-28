@@ -273,9 +273,8 @@ function LotComparison() {
 function OfferSection() {
   return (
     <section className="section offer-section" id="inscricao">
-      <Reveal className="offer-commerce page-shell">
+      <Reveal className="offer-timer page-shell">
         <EvergreenCountdown />
-        <LotComparison />
       </Reveal>
       <div className="page-shell offer-grid">
         <Reveal className="offer-copy">
@@ -291,10 +290,13 @@ function OfferSection() {
           <Cta label={sharedCopy.offer.cta} />
           <p className="offer-note">{sharedCopy.offer.note}</p>
         </Reveal>
-        <Reveal className="offer-media">
-          <img src="/images/coroa-ceramica.webp" alt="Coroa em cerâmica em processo de finalização" width="4288" height="2848" loading="lazy" />
-          <div className="offer-price"><small>Investimento</small><strong>R$ 47</strong></div>
-        </Reveal>
+        <div className="offer-media-stack">
+          <Reveal className="offer-media">
+            <img src="/images/coroa-ceramica.webp" alt="Coroa em cerâmica em processo de finalização" width="4288" height="2848" loading="lazy" />
+            <div className="offer-price"><small>Investimento</small><strong>R$ 47</strong></div>
+          </Reveal>
+          <Reveal className="offer-lots"><LotComparison /></Reveal>
+        </div>
       </div>
     </section>
   )

@@ -141,22 +141,23 @@ blockquote { margin: 42px 0 0; padding: 30px 0 0; border-top: 1px solid #bfc3c1;
 .authority-copy blockquote { border-color: #3d4246; color: white; }
 
 .offer-section { color: var(--ink); background: #dce1e2; }
-.offer-commerce { display: grid; grid-template-columns: .82fr 1.18fr; gap: 1px; margin-bottom: clamp(54px, 7vw, 88px); border: 1px solid #aeb5b7; background: #aeb5b7; }
-.countdown { display: grid; gap: 26px; align-content: center; min-width: 0; padding: clamp(28px, 4vw, 48px); color: white; background: var(--ink); }
-.countdown > p { margin: 0; color: #aeb6ba; font-family: 'Manrope', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.offer-timer { margin-bottom: clamp(54px, 7vw, 88px); }
+.countdown { display: grid; grid-template-columns: minmax(150px, .46fr) 1fr; gap: clamp(24px, 4vw, 58px); align-items: center; min-width: 0; padding: clamp(26px, 3.4vw, 42px); border: 1px solid #30363a; color: white; background: var(--ink); }
+.countdown > p { margin: 0; color: #aeb6ba; font-family: 'Manrope', sans-serif; font-size: .75rem; font-weight: 700; line-height: 1.5; letter-spacing: .14em; text-transform: uppercase; }
 .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #3a4044; }
 .countdown-unit { display: grid; min-width: 0; gap: 7px; padding: 18px 10px; background: #171a1d; text-align: center; }
 .countdown-unit strong { font-family: 'Manrope', sans-serif; font-size: clamp(1.7rem, 3.2vw, 2.8rem); line-height: 1; letter-spacing: -.05em; }
 .countdown-unit span { color: #919ba0; font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; }
 .countdown.is-expired .countdown-unit strong { color: #838c91; }
-.lot-grid { display: grid; grid-template-columns: repeat(3, 1fr); min-width: 0; background: #f2f3f1; }
-.lot-card { display: grid; align-content: center; gap: 14px; min-width: 0; padding: clamp(28px, 3.2vw, 44px) clamp(20px, 2.4vw, 34px); border-left: 1px solid #c3c8c9; color: #666e72; background: #eceeec; }
-.lot-card:first-child { border-left: 0; }
+.lot-grid { display: grid; grid-template-columns: 1fr; min-width: 0; border: 1px solid #b3babc; border-top: 0; background: #c3c8c9; }
+.lot-card { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 18px; min-width: 0; padding: 21px 24px; border-top: 1px solid #c3c8c9; color: #666e72; background: #eceeec; }
+.lot-card:first-child { border-top: 0; }
 .lot-card span { font-family: 'Manrope', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
-.lot-card strong { color: var(--ink); font-family: 'Manrope', sans-serif; font-size: clamp(1.8rem, 3.2vw, 3.2rem); line-height: 1; letter-spacing: -.055em; }
+.lot-card strong { color: var(--ink); font-family: 'Manrope', sans-serif; font-size: clamp(1.65rem, 2.8vw, 2.5rem); line-height: 1; letter-spacing: -.055em; }
 .lot-card.is-current { color: #f1f3f3; background: #343a3e; }
 .lot-card.is-current strong { color: white; }
 .offer-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(55px, 9vw, 125px); align-items: center; }
+.offer-media-stack { display: grid; min-width: 0; align-self: center; }
 .offer-copy h2 { margin-bottom: 44px; }
 .offer-table { margin-bottom: 34px; border-top: 1px solid #aeb5b7; }
 .offer-row { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding-block: 17px; border-bottom: 1px solid #b8bec0; }
@@ -241,7 +242,6 @@ footer { padding-block: 28px; color: #8d969b; background: #08090a; font-size: .7
   .process-step:nth-child(3) { border-left: 1px solid rgba(255,255,255,.12); }
   .process-step:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.12); }
   .editorial-grid, .authority-grid, .offer-grid, .faq-grid { grid-template-columns: 1fr; }
-  .offer-commerce { grid-template-columns: 1fr; }
   .section-heading h2, .authority-copy h2, .faq-heading h2 { max-width: 13ch; }
   .method-intro { grid-template-columns: 70px 1fr; }
   .method-intro > p:last-child { grid-column: 2; }
@@ -253,7 +253,8 @@ footer { padding-block: 28px; color: #8d969b; background: #08090a; font-size: .7
   .process-visual img { aspect-ratio: 16 / 10; }
   .section-cta { padding-left: 0; }
   .authority-media { width: min(520px, 100%); margin-inline: auto; aspect-ratio: 4 / 4.7; }
-  .offer-media { order: -1; min-height: 400px; }
+  .offer-media-stack { order: -1; width: min(620px, 100%); margin-inline: auto; }
+  .offer-media { min-height: 400px; }
   .faq-heading { position: relative; top: auto; }
   .complements-heading { grid-template-columns: 70px 1fr; }
   .complements-heading > p:last-child { grid-column: 2; }
@@ -293,14 +294,12 @@ footer { padding-block: 28px; color: #8d969b; background: #08090a; font-size: .7
   .fit-grid, .complements-grid { grid-template-columns: 1fr; }
   .fit-panel { padding: 34px 24px; }
   .offer-media { min-height: 340px; }
-  .offer-commerce { margin-bottom: 54px; }
-  .countdown { gap: 20px; padding: 26px 18px; }
+  .offer-timer { margin-bottom: 54px; }
+  .countdown { grid-template-columns: 1fr; gap: 20px; padding: 26px 18px; }
   .countdown-unit { padding: 16px 6px; }
   .countdown-unit strong { font-size: clamp(1.55rem, 8vw, 2.25rem); }
   .countdown-unit span { font-size: .56rem; }
-  .lot-grid { grid-template-columns: 1fr; }
-  .lot-card { grid-template-columns: 1fr auto; align-items: center; padding: 22px; border-top: 1px solid #c3c8c9; border-left: 0; }
-  .lot-card:first-child { border-top: 0; }
+  .lot-card { padding: 20px; }
   .lot-card strong { font-size: 2.1rem; }
   .offer-row { grid-template-columns: 112px 1fr; }
   .faq-grid { gap: 45px; }
