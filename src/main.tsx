@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { checkoutUrl, heroVariants, sharedCopy, type HeroVariant } from './content'
 import './styles.css'
@@ -201,9 +201,82 @@ function AuthoritySection() {
   )
 }
 
+const evergreenDurationMs = 4 * 24 * 60 * 60 * 1000
+const evergreenStorageKey = 'cleiton-prata-workshop-rota:evergreen-expiry:v1'
+
+function getOrCreateEvergreenExpiry() {
+  try {
+    const storedExpiry = Number(window.localStorage.getItem(evergreenStorageKey))
+    if (Number.isFinite(storedExpiry) && storedExpiry > 0) return storedExpiry
+
+    const expiry = Date.now() + evergreenDurationMs
+    window.localStorage.setItem(evergreenStorageKey, String(expiry))
+    return expiry
+  } catch {
+    return Date.now() + evergreenDurationMs
+  }
+}
+
+function splitCountdown(remainingMs: number) {
+  const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1000))
+  const days = Math.floor(totalSeconds / 86400)
+  const hours = Math.floor((totalSeconds % 86400) / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+  return [days, hours, minutes, seconds]
+}
+
+function EvergreenCountdown() {
+  const [expiry] = useState(getOrCreateEvergreenExpiry)
+  const [remaining, setRemaining] = useState(() => Math.max(0, expiry - Date.now()))
+
+  useEffect(() => {
+    const update = () => setRemaining(Math.max(0, expiry - Date.now()))
+    update()
+    if (expiry <= Date.now()) return
+
+    const interval = window.setInterval(update, 1000)
+    return () => window.clearInterval(interval)
+  }, [expiry])
+
+  const values = splitCountdown(remaining)
+  const isExpired = remaining <= 0
+
+  return (
+    <div className={`countdown ${isExpired ? 'is-expired' : ''}`} role="timer" aria-live="off" aria-atomic="true">
+      <p>{isExpired ? sharedCopy.offer.countdown.expired : sharedCopy.offer.countdown.label}</p>
+      <div className="countdown-grid">
+        {sharedCopy.offer.countdown.units.map((unit, index) => (
+          <div className="countdown-unit" key={unit}>
+            <strong>{String(values[index]).padStart(2, '0')}</strong>
+            <span>{unit}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function LotComparison() {
+  return (
+    <div className="lot-grid" aria-label="Lotes">
+      {sharedCopy.offer.lots.map(([name, price], index) => (
+        <div className={`lot-card ${index === 0 ? 'is-current' : ''}`} key={name} aria-current={index === 0 ? 'true' : undefined}>
+          <span>{name}</span>
+          <strong>{price}</strong>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function OfferSection() {
   return (
     <section className="section offer-section" id="inscricao">
+      <Reveal className="offer-commerce page-shell">
+        <EvergreenCountdown />
+        <LotComparison />
+      </Reveal>
       <div className="page-shell offer-grid">
         <Reveal className="offer-copy">
           <p className="section-index">05</p>

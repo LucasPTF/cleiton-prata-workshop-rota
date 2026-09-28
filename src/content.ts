@@ -138,6 +138,16 @@ export const sharedCopy = {
   },
   offer: {
     title: 'Sua inscrição',
+    countdown: {
+      label: 'Tempo restante',
+      expired: 'Prazo encerrado',
+      units: ['Dias', 'Horas', 'Minutos', 'Segundos'],
+    },
+    lots: [
+      ['Lote 1', 'R$ 47'],
+      ['Lote 2', 'R$ 97'],
+      ['Lote 3', 'R$ 147'],
+    ],
     rows: [
       ['Workshop', 'Seu Próximo Passo na Prótese'],
       ['Formato', 'Ao vivo, em grupo'],
