@@ -19,7 +19,7 @@ export const heroVariants: Record<'a1' | 'a2' | 'a3', HeroVariant> = {
     kicker: 'WORKSHOP AO VIVO • CERÂMICA E FLUXO DIGITAL',
     title: 'Cerâmica ou digital? Talvez a pergunta esteja separando duas partes do mesmo trabalho.',
     description:
-      'Veja como o fluxo pode sair do desenho no Exocad, passar pela impressão e adaptação e chegar a uma peça final em cerâmica — e use o Método R.O.T.A para decidir qual competência você precisa desenvolver primeiro.',
+      'Veja como o fluxo pode sair do desenho 3D, passar pela impressão e adaptação e chegar a uma peça final em cerâmica — e use o Método R.O.T.A para decidir qual competência você precisa desenvolver primeiro.',
     cta: 'QUERO ENXERGAR O FLUXO COMPLETO — R$ 47',
   },
   a3: {
@@ -38,7 +38,7 @@ export const sharedCopy = {
     meta: 'Entrada: R$ 47 • Ao vivo • 2h30 • Replay por 72 horas',
   },
   process:
-    'Durante a aula: desenho no Exocad → impressão → adaptação na bancada → caso finalizado em cerâmica.',
+    'Durante a aula: desenho 3D → impressão → adaptação na bancada → caso finalizado em cerâmica.',
   problem: {
     title: 'O problema não é falta de conteúdo',
     paragraphs: [
@@ -93,7 +93,7 @@ export const sharedCopy = {
         title: 'Bloco 2 — Trajetória: da tela à peça',
         items: [
           'Entender por que cerâmica e digital não precisam ser tratados como carreiras rivais.',
-          'Acompanhar a montagem de um caso simples no Exocad.',
+          'Acompanhar a montagem de um caso simples em desenho 3D.',
           'Ver o mesmo caso seguir para impressão e adaptação na bancada.',
           'Fechar o raciocínio com um caso finalizado em cerâmica que nasceu de um desenho digital.',
         ],
@@ -121,7 +121,7 @@ export const sharedCopy = {
   notFit: {
     title: 'Para quem não é',
     items: [
-      'Quem procura uma formação completa em cerâmica ou Exocad dentro de uma única aula.',
+      'Quem procura uma formação completa em cerâmica ou desenho 3D dentro de uma única aula.',
       'Quem espera promessa de emprego, aumento de renda, contratação ou resultado garantido.',
       'Quem quer uma lista universal de equipamentos sem considerar estágio, objetivo e estrutura de trabalho.',
       'Quem não pretende colocar nenhuma ação em prática depois do workshop.',
@@ -130,7 +130,7 @@ export const sharedCopy = {
   authority: {
     title: 'Por que aprender com Cleiton Prata',
     paragraphs: [
-      'Cleiton reúne 20 anos de profissão com prática de bancada em cerâmica e experiência no fluxo digital. No dia a dia, usa o Exocad para desenhar casos e acompanha o caminho que vai do planejamento digital à produção e à adaptação.',
+      'Cleiton reúne 20 anos de profissão com prática de bancada em cerâmica e experiência no fluxo digital. No dia a dia, trabalha com desenho 3D e acompanha o caminho que vai do planejamento digital à produção e à adaptação.',
       'O ponto central da aula não é exibir uma peça bonita isolada. É mostrar a lógica do processo: como decisões digitais e execução de bancada precisam conversar para chegar a um trabalho final coerente.',
     ],
     proof:
@@ -153,7 +153,7 @@ export const sharedCopy = {
       ['Formato', 'Ao vivo, em grupo'],
       ['Duração', '2h30'],
       ['Método', 'R.O.T.A — Realidade, Objetivo, Trajetória e Ação'],
-      ['Demonstração', 'Exocad → impressão → adaptação → caso final em cerâmica'],
+      ['Demonstração', 'Desenho 3D → impressão → adaptação → caso final em cerâmica'],
       ['Replay', 'Disponível por 72 horas'],
       ['Investimento', 'R$ 47'],
     ],
@@ -165,7 +165,7 @@ export const sharedCopy = {
     title: 'Perguntas frequentes',
     items: [
       ['Preciso já trabalhar como TPD?', 'Não. O workshop foi pensado para quem está em formação final, recém-formado ou já atua e quer organizar a próxima etapa.'],
-      ['Vou aprender Exocad do zero?', 'Você verá uma demonstração prática de um caso simples e como o desenho entra no fluxo. O workshop não substitui um curso completo de Exocad.'],
+      ['Vou aprender desenho 3D do zero?', 'Você verá uma demonstração prática de um caso simples e como o desenho entra no fluxo. O workshop não substitui um curso completo de desenho 3D.'],
       ['A aula é só sobre digital?', 'Não. A proposta é justamente mostrar a conexão entre o digital e a execução de bancada, com foco em cerâmica.'],
       ['Preciso ter impressora ou fresadora?', 'Não. A aula ajuda a entender a função das etapas antes de transformar equipamento em ponto de partida.'],
       ['Tem replay?', 'Sim. O replay do workshop ficará disponível por 72 horas.'],

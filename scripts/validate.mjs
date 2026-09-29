@@ -39,6 +39,10 @@ for (const term of forbidden) {
 
 if (source.includes('transition: all')) throw new Error('transition: all não é permitido')
 if (!source.includes('prefers-reduced-motion')) throw new Error('prefers-reduced-motion ausente')
+const restrictedBrand = ['exo', 'cad'].join('')
+if (source.toLocaleLowerCase('pt-BR').includes(restrictedBrand)) {
+  throw new Error('Referência à marca de software encontrada')
+}
 
 for (const lot of ['Lote 1', 'Lote 2', 'Lote 3', 'R$ 47', 'R$ 97', 'R$ 147']) {
   if (!source.includes(lot)) throw new Error(`Lote ou preço ausente: ${lot}`)
