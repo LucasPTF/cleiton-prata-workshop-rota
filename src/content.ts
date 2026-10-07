@@ -7,12 +7,14 @@ export type HeroVariant = {
 
 export const checkoutUrl = 'https://pay.hotmart.com/S107483590M?bid=1789599580879'
 
+export const lotDeadline = '2026-10-09T19:00:00-03:00'
+
 export const heroVariants: Record<'a1' | 'a2' | 'a3', HeroVariant> = {
   a1: {
     kicker: 'WORKSHOP AO VIVO PARA TPDs EM FORMAÇÃO FINAL, RECÉM-FORMADOS E TÉCNICOS EM TRANSIÇÃO',
-    title: 'Você não precisa aprender tudo agora. Precisa saber qual é o seu próximo passo na prótese.',
+    title: 'Entenda como cerâmica, digital e bancada se conectam e descubra qual é o seu próximo passo na prótese.',
     description:
-      'Em 2h30 ao vivo, Cleiton Prata conduz você pelo Método R.O.T.A para localizar seu estágio, entender como cerâmica e fluxo digital se conectam e sair com uma prioridade prática para os próximos 30 dias.',
+      'Em 2h30 ao vivo, Cleiton Prata conduz você pelo Método R.O.T.A para localizar seu estágio, entender como cerâmica e fluxo digital se conectam e sair com uma prioridade prática e um primeiro passo.',
     cta: 'QUERO DEFINIR MEU PRÓXIMO PASSO — R$ 47',
   },
   a2: {
@@ -26,15 +28,15 @@ export const heroVariants: Record<'a1' | 'a2' | 'a3', HeroVariant> = {
     kicker: 'WORKSHOP AO VIVO • PRÓXIMA AÇÃO PROFISSIONAL',
     title: 'Se você está esperando alguém abrir espaço para você avançar, comece definindo o que consegue praticar agora.',
     description:
-      'Em vez de depender de mais uma oportunidade aparecer no laboratório, organize sua realidade, escolha uma prioridade e monte um plano de 30 dias para construir a próxima competência de forma intencional.',
-    cta: 'QUERO SAIR DA ESPERA COM UM PLANO — R$ 47',
+      'Em vez de depender de mais uma oportunidade aparecer no laboratório, organize sua realidade, escolha uma prioridade e defina um primeiro passo para construir a próxima competência de forma intencional.',
+    cta: 'QUERO SAIR DA ESPERA COM DIREÇÃO - R$ 47',
   },
 }
 
 export const sharedCopy = {
   identity: {
     title: 'Workshop Seu Próximo Passo na Prótese',
-    details: 'Método R.O.T.A • Cerâmica integrada ao digital • Plano de 30 dias',
+    details: 'Método R.O.T.A • Cerâmica integrada ao digital',
     meta: 'Entrada: R$ 47 • Ao vivo • 2h30 • Replay por 72 horas',
   },
   process:
@@ -87,6 +89,7 @@ export const sharedCopy = {
           'Localizar seu estágio atual sem comparar sua carreira com a de quem já está anos à frente.',
           'Separar interesse de prioridade: aquilo que parece atraente não é necessariamente o que precisa vir primeiro.',
           'Escolher uma competência principal para o próximo ciclo de desenvolvimento.',
+          'Preencher ao vivo a Matriz da Próxima Competência, material gratuito da aula.',
         ],
       },
       {
@@ -95,13 +98,13 @@ export const sharedCopy = {
           'Entender por que cerâmica e digital não precisam ser tratados como carreiras rivais.',
           'Acompanhar a montagem de um caso simples em desenho 3D.',
           'Ver o mesmo caso seguir para impressão e adaptação na bancada.',
-          'Fechar o raciocínio com um caso finalizado em cerâmica que nasceu de um desenho digital.',
+          'Ver a cerâmica pronta desse mesmo caso, já adaptada, acompanhando o fluxo do desenho à peça final.',
         ],
       },
       {
-        title: 'Bloco 3 — Ação: próximos 30 dias',
+        title: 'Bloco 3 - Ação: seu primeiro passo',
         items: [
-          'Definir uma ação semanal coerente com sua prioridade.',
+          'Definir um primeiro passo coerente com sua prioridade.',
           'Decidir o que estudar agora e o que pode esperar.',
           'Evitar compras por impulso antes de entender a função de cada material, curso ou equipamento na sua rota.',
         ],
@@ -131,6 +134,7 @@ export const sharedCopy = {
     title: 'Por que aprender com Cleiton Prata',
     paragraphs: [
       'Cleiton reúne 20 anos de profissão com prática de bancada em cerâmica e experiência no fluxo digital. No dia a dia, trabalha com desenho 3D e acompanha o caminho que vai do planejamento digital à produção e à adaptação.',
+      'Cleiton construiu a carreira no Brasil e, depois de 15 anos de bancada, foi convidado para trabalhar em um laboratório em Portugal. Há 5 anos, trabalha e empreende na Europa, unindo a cerâmica ao fluxo digital.',
       'O ponto central da aula não é exibir uma peça bonita isolada. É mostrar a lógica do processo: como decisões digitais e execução de bancada precisam conversar para chegar a um trabalho final coerente.',
     ],
     proof:
@@ -139,8 +143,9 @@ export const sharedCopy = {
   offer: {
     title: 'Sua inscrição',
     countdown: {
-      label: 'Tempo restante',
+      label: 'O Lote 1 encerra em',
       expired: 'Prazo encerrado',
+      date: '9 de outubro de 2026, às 19h (horário de Brasília)',
       units: ['Dias', 'Horas', 'Minutos', 'Segundos'],
     },
     lots: [
@@ -151,6 +156,7 @@ export const sharedCopy = {
     rows: [
       ['Workshop', 'Seu Próximo Passo na Prótese'],
       ['Formato', 'Ao vivo, em grupo'],
+      ['Data e horário', '10 de outubro de 2026, às 19h (horário de Brasília)'],
       ['Duração', '2h30'],
       ['Método', 'R.O.T.A — Realidade, Objetivo, Trajetória e Ação'],
       ['Demonstração', 'Desenho 3D → impressão → adaptação → caso final em cerâmica'],
@@ -159,7 +165,7 @@ export const sharedCopy = {
     ],
     cta: 'GARANTIR MINHA INSCRIÇÃO — R$ 47',
     note:
-      'Não há promessa de emprego, renda, domínio completo de técnica ou execução sem erro. O resultado do workshop é direção, priorização e um plano inicial de ação.',
+      'Não há promessa de emprego, renda, domínio completo de técnica ou execução sem erro. O resultado do workshop é direção, priorização e um primeiro passo.',
   },
   faq: {
     title: 'Perguntas frequentes',
@@ -169,26 +175,17 @@ export const sharedCopy = {
       ['A aula é só sobre digital?', 'Não. A proposta é justamente mostrar a conexão entre o digital e a execução de bancada, com foco em cerâmica.'],
       ['Preciso ter impressora ou fresadora?', 'Não. A aula ajuda a entender a função das etapas antes de transformar equipamento em ponto de partida.'],
       ['Tem replay?', 'Sim. O replay do workshop ficará disponível por 72 horas.'],
-      ['Quanto custa?', 'A inscrição no workshop custa R$ 47.'],
+      ['Quanto custa?', 'O lote atual custa R$ 47. O valor sobe nas próximas viradas de lote.'],
       ['O workshop garante emprego ou aumento de renda?', 'Não. Esses resultados dependem de fatores que nenhuma aula controla. O workshop ajuda a organizar competências e próximos passos.'],
       ['Vai haver oferta de outro curso?', 'Ao final, quem quiser aprofundar o estudo poderá conhecer o DNA Direto no Alvo, um curso gravado e sem mentoria, oferecido separadamente por R$ 1.497. A compra do DNA é opcional.'],
       ['O DNA inclui acompanhamento individual?', 'Não. O DNA é um curso gravado. Mentoria e acompanhamento, quando oferecidos, são produtos separados e não fazem parte do DNA.'],
-    ],
-  },
-  complements: {
-    title: 'Checkout — complementos opcionais',
-    description: 'Os itens abaixo são ofertas adicionais e não são necessários para participar do workshop.',
-    items: [
-      ['Matriz da Próxima Competência', 'Ferramenta para comparar interesse, acesso à prática, custo e impacto profissional antes de escolher uma especialidade.  + R$ 19'],
-      ['Agenda de Prática por 30 Dias', 'Roteiro semanal para encaixar estudo e exercício na rotina sem tentar aprender várias áreas ao mesmo tempo.  + R$ 27'],
-      ['Checklist do Que Não Comprar Agora', 'Critérios para evitar investimento em material, equipamento ou curso antes de compreender sua função na rota escolhida.  + R$ 17'],
     ],
   },
   closing: {
     title: 'Fechamento',
     paragraphs: [
       'Você não precisa decidir hoje como será toda a sua carreira. Precisa identificar qual competência merece sua atenção agora e qual ação cabe na sua realidade.',
-      'No Workshop Seu Próximo Passo na Prótese, a proposta é fazer essa decisão diante de um fluxo real — do desenho digital à peça em cerâmica — e sair com um caminho mais claro para os próximos 30 dias.',
+      'No Workshop Seu Próximo Passo na Prótese, a proposta é fazer essa decisão diante de um fluxo real, do desenho digital à peça em cerâmica, e sair com direção e um primeiro passo.',
     ],
     cta: 'QUERO DEFINIR MEU PRÓXIMO PASSO — R$ 47',
   },

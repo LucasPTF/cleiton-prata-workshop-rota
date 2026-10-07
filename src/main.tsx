@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { checkoutUrl, heroVariants, sharedCopy, type HeroVariant } from './content'
+import { checkoutUrl, heroVariants, lotDeadline, sharedCopy, type HeroVariant } from './content'
 import './styles.css'
 
 const Arrow = () => (
@@ -21,10 +21,10 @@ const Cross = () => (
   </svg>
 )
 
-function Cta({ label, className = '' }: { label: string; className?: string }) {
+function Cta({ label, copyId, className = '' }: { label: string; copyId: string; className?: string }) {
   return (
     <a className={`cta ${className}`.trim()} href={checkoutUrl}>
-      <span>{label}</span>
+      <span data-copy-id={copyId}>{label}</span>
       <Arrow />
     </a>
   )
@@ -39,10 +39,10 @@ function Hero({ hero }: { hero: HeroVariant }) {
     <header className="hero">
       <div className="hero-grid page-shell">
         <div className="hero-copy">
-          <p className="kicker hero-enter hero-enter-1">{hero.kicker}</p>
-          <h1 className="hero-enter hero-enter-2">{hero.title}</h1>
-          <p className="hero-description hero-enter hero-enter-3">{hero.description}</p>
-          <Cta label={hero.cta} className="hero-enter hero-enter-4" />
+          <p data-copy-id="hero-kicker" className="kicker hero-enter hero-enter-1">{hero.kicker}</p>
+          <h1 data-copy-id="hero-title" className="hero-enter hero-enter-2">{hero.title}</h1>
+          <p data-copy-id="hero-description" className="hero-description hero-enter hero-enter-3">{hero.description}</p>
+          <Cta label={hero.cta} copyId="hero-cta" className="hero-enter hero-enter-4" />
         </div>
         <div className="hero-media hero-enter hero-enter-3" data-motion-viewport>
           <div className="hero-frame">
@@ -59,9 +59,9 @@ function Hero({ hero }: { hero: HeroVariant }) {
       </div>
       <div className="identity-band">
         <div className="page-shell identity-grid">
-          <strong>{sharedCopy.identity.title}</strong>
-          <span>{sharedCopy.identity.details}</span>
-          <span>{sharedCopy.identity.meta}</span>
+          <strong data-copy-id="source-3">{sharedCopy.identity.title}</strong>
+          <span data-copy-id="source-4">{sharedCopy.identity.details}</span>
+          <span data-copy-id="source-5">{sharedCopy.identity.meta}</span>
         </div>
       </div>
     </header>
@@ -72,8 +72,8 @@ function ProcessStrip() {
   const labels = sharedCopy.process.split(' → ')
   return (
     <section className="process-strip">
-      <p className="process-copy page-shell">{sharedCopy.process}</p>
-      <div className="page-shell process-grid">
+      <p data-copy-id="source-9" className="process-copy page-shell">{sharedCopy.process}</p>
+      <div className="page-shell process-grid" aria-hidden="true">
         {labels.map((label, index) => (
           <div className="process-step" key={label}>
             <span>{String(index + 1).padStart(2, '0')}</span>
@@ -90,12 +90,12 @@ function ProblemSection() {
     <section className="section section-light">
       <div className="page-shell editorial-grid">
         <Reveal className="section-heading">
-          <p className="section-index">01</p>
-          <h2>{sharedCopy.problem.title}</h2>
+          <p className="section-index" aria-hidden="true">01</p>
+          <h2 data-copy-id="source-11">{sharedCopy.problem.title}</h2>
         </Reveal>
         <Reveal className="body-copy">
-          {sharedCopy.problem.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <blockquote>{sharedCopy.problem.principle}</blockquote>
+          {sharedCopy.problem.paragraphs.map((paragraph, index) => <p data-copy-id={`source-${12 + index}`} key={paragraph}>{paragraph}</p>)}
+          <blockquote data-copy-id="source-15">{sharedCopy.problem.principle}</blockquote>
         </Reveal>
       </div>
     </section>
@@ -107,20 +107,20 @@ function MethodSection() {
     <section className="section method-section">
       <div className="page-shell">
         <Reveal className="method-intro">
-          <p className="section-index">02</p>
-          <h2>{sharedCopy.method.title}</h2>
-          <p>{sharedCopy.method.description}</p>
+          <p className="section-index" aria-hidden="true">02</p>
+          <h2 data-copy-id="source-16">{sharedCopy.method.title}</h2>
+          <p data-copy-id="source-17">{sharedCopy.method.description}</p>
         </Reveal>
         <div className="route-map reveal" aria-label="ETAPA O QUE VOCÊ VAI DEFINIR">
-          {sharedCopy.method.steps.map((step) => (
+          {sharedCopy.method.steps.map((step, index) => (
             <article className="route-step" key={step.code}>
               <div className="route-marker" aria-hidden="true">{step.code}</div>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
+              <h3 data-copy-id={`source-${20 + index * 2}`}>{step.title}</h3>
+              <p data-copy-id={`source-${21 + index * 2}`}>{step.text}</p>
             </article>
           ))}
         </div>
-        <Reveal className="method-note"><p>{sharedCopy.method.note}</p></Reveal>
+        <Reveal className="method-note"><p data-copy-id="source-28">{sharedCopy.method.note}</p></Reveal>
       </div>
     </section>
   )
@@ -131,18 +131,18 @@ function ScheduleSection() {
     <section className="section section-dark">
       <div className="page-shell">
         <Reveal className="split-title">
-          <p className="section-index">03</p>
-          <h2>{sharedCopy.schedule.title}</h2>
+          <p className="section-index" aria-hidden="true">03</p>
+          <h2 data-copy-id="source-29">{sharedCopy.schedule.title}</h2>
         </Reveal>
         <div className="schedule-layout">
           <div className="schedule-list">
             {sharedCopy.schedule.blocks.map((block, index) => (
               <Reveal className="schedule-card" key={block.title}>
-                <div className="schedule-number">0{index + 1}</div>
+                <div className="schedule-number" aria-hidden="true">0{index + 1}</div>
                 <div>
-                  <h3>{block.title}</h3>
+                  <h3 data-copy-id={`schedule-${index}-title`}>{block.title}</h3>
                   <ul>
-                    {block.items.map((item) => <li key={item}>{item}</li>)}
+                    {block.items.map((item, itemIndex) => <li data-copy-id={`schedule-${index}-item-${itemIndex}`} key={item}>{item}</li>)}
                   </ul>
                 </div>
               </Reveal>
@@ -150,10 +150,10 @@ function ScheduleSection() {
           </div>
           <Reveal className="process-visual">
             <img src="/images/facetas-finalizadas.webp" alt="Facetas em cerâmica finalizadas" width="2272" height="4032" loading="lazy" />
-            <div className="process-caption">{sharedCopy.authority.proof}</div>
+            <div data-copy-id="source-57" className="process-caption">{sharedCopy.authority.proof}</div>
           </Reveal>
         </div>
-        <Reveal className="section-cta"><Cta label={sharedCopy.schedule.cta} /></Reveal>
+        <Reveal className="section-cta"><Cta label={sharedCopy.schedule.cta} copyId="source-43" /></Reveal>
       </div>
     </section>
   )
@@ -167,12 +167,12 @@ function FitSection() {
   return (
     <section className="section section-light">
       <div className="page-shell fit-grid">
-        {groups.map((group) => (
+        {groups.map((group, index) => (
           <Reveal className={`fit-panel ${group.style}`} key={group.title}>
-            <h2>{group.title}</h2>
+            <h2 data-copy-id={`fit-${index}-title`}>{group.title}</h2>
             <ul>
-              {group.items.map((item) => (
-                <li key={item}><span className="list-icon">{group.icon}</span><span>{item}</span></li>
+              {group.items.map((item, itemIndex) => (
+                <li key={item}><span className="list-icon">{group.icon}</span><span data-copy-id={`fit-${index}-item-${itemIndex}`}>{item}</span></li>
               ))}
             </ul>
           </Reveal>
@@ -188,33 +188,16 @@ function AuthoritySection() {
       <div className="page-shell authority-grid">
         <Reveal className="authority-media">
           <img src="/images/cleiton-prata.webp" alt="Retrato de Cleiton Prata" width="3024" height="4032" loading="lazy" />
-          <span>20</span>
+          <span aria-hidden="true">20</span>
         </Reveal>
         <Reveal className="authority-copy">
-          <p className="section-index">04</p>
-          <h2>{sharedCopy.authority.title}</h2>
-          {sharedCopy.authority.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <blockquote>{sharedCopy.authority.proof}</blockquote>
+          <p className="section-index" aria-hidden="true">04</p>
+          <h2 data-copy-id="source-54">{sharedCopy.authority.title}</h2>
+          {sharedCopy.authority.paragraphs.map((paragraph, index) => <p data-copy-id={`authority-paragraph-${index}`} key={paragraph}>{paragraph}</p>)}
         </Reveal>
       </div>
     </section>
   )
-}
-
-const evergreenDurationMs = 4 * 24 * 60 * 60 * 1000
-const evergreenStorageKey = 'cleiton-prata-workshop-rota:evergreen-expiry:v1'
-
-function getOrCreateEvergreenExpiry() {
-  try {
-    const storedExpiry = Number(window.localStorage.getItem(evergreenStorageKey))
-    if (Number.isFinite(storedExpiry) && storedExpiry > 0) return storedExpiry
-
-    const expiry = Date.now() + evergreenDurationMs
-    window.localStorage.setItem(evergreenStorageKey, String(expiry))
-    return expiry
-  } catch {
-    return Date.now() + evergreenDurationMs
-  }
 }
 
 function splitCountdown(remainingMs: number) {
@@ -226,8 +209,8 @@ function splitCountdown(remainingMs: number) {
   return [days, hours, minutes, seconds]
 }
 
-function EvergreenCountdown() {
-  const [expiry] = useState(getOrCreateEvergreenExpiry)
+function LotCountdown() {
+  const expiry = Date.parse(lotDeadline)
   const [remaining, setRemaining] = useState(() => Math.max(0, expiry - Date.now()))
 
   useEffect(() => {
@@ -244,12 +227,15 @@ function EvergreenCountdown() {
 
   return (
     <div className={`countdown ${isExpired ? 'is-expired' : ''}`} role="timer" aria-live="off" aria-atomic="true">
-      <p>{isExpired ? sharedCopy.offer.countdown.expired : sharedCopy.offer.countdown.label}</p>
+      <div className="countdown-heading">
+        <p data-copy-id="deadline-label">{isExpired ? sharedCopy.offer.countdown.expired : sharedCopy.offer.countdown.label}</p>
+        <time data-copy-id="deadline-date" dateTime={lotDeadline}>{sharedCopy.offer.countdown.date}</time>
+      </div>
       <div className="countdown-grid">
         {sharedCopy.offer.countdown.units.map((unit, index) => (
           <div className="countdown-unit" key={unit}>
-            <strong>{String(values[index]).padStart(2, '0')}</strong>
-            <span>{unit}</span>
+            <strong data-copy-dynamic={`timer-${index}`}>{String(values[index]).padStart(2, '0')}</strong>
+            <span data-copy-id={`timer-unit-${index}`}>{unit}</span>
           </div>
         ))}
       </div>
@@ -262,8 +248,8 @@ function LotComparison() {
     <div className="lot-grid" aria-label="Lotes">
       {sharedCopy.offer.lots.map(([name, price], index) => (
         <div className={`lot-card ${index === 0 ? 'is-current' : ''}`} key={name} aria-current={index === 0 ? 'true' : undefined}>
-          <span>{name}</span>
-          <strong>{price}</strong>
+          <span data-copy-id={`lot-${index}-name`}>{name}</span>
+          <strong data-copy-id={`lot-${index}-price`}>{price}</strong>
         </div>
       ))}
     </div>
@@ -274,26 +260,26 @@ function OfferSection() {
   return (
     <section className="section offer-section" id="inscricao">
       <Reveal className="offer-timer page-shell">
-        <EvergreenCountdown />
+        <LotCountdown />
       </Reveal>
       <div className="page-shell offer-grid">
         <Reveal className="offer-copy">
-          <p className="section-index">05</p>
-          <h2>{sharedCopy.offer.title}</h2>
+          <p className="section-index" aria-hidden="true">05</p>
+          <h2 data-copy-id="source-58">{sharedCopy.offer.title}</h2>
           <div className="offer-table">
-            {sharedCopy.offer.rows.map(([label, value]) => (
+            {sharedCopy.offer.rows.map(([label, value], index) => (
               <div className="offer-row" key={label}>
-                <span>{label}</span><strong>{value}</strong>
+                <span data-copy-id={`offer-row-${index}-label`}>{label}</span><strong data-copy-id={`offer-row-${index}-value`}>{value}</strong>
               </div>
             ))}
           </div>
-          <Cta label={sharedCopy.offer.cta} />
-          <p className="offer-note">{sharedCopy.offer.note}</p>
+          <Cta label={sharedCopy.offer.cta} copyId="source-73" />
+          <p data-copy-id="source-74" className="offer-note">{sharedCopy.offer.note}</p>
         </Reveal>
         <div className="offer-media-stack">
           <Reveal className="offer-media">
             <img src="/images/coroa-ceramica.webp" alt="Coroa em cerâmica em processo de finalização" width="4288" height="2848" loading="lazy" />
-            <div className="offer-price"><small>Investimento</small><strong>R$ 47</strong></div>
+            <div className="offer-price"><small data-copy-id="photo-price-label">Investimento</small><strong data-copy-id="photo-price-value">R$ 47</strong></div>
           </Reveal>
           <Reveal className="offer-lots"><LotComparison /></Reveal>
         </div>
@@ -307,38 +293,15 @@ function FaqSection() {
     <section className="section faq-section">
       <div className="page-shell faq-grid">
         <Reveal className="faq-heading">
-          <p className="section-index">06</p>
-          <h2>{sharedCopy.faq.title}</h2>
+          <p className="section-index" aria-hidden="true">06</p>
+          <h2 data-copy-id="source-75">{sharedCopy.faq.title}</h2>
         </Reveal>
         <div className="faq-list">
-          {sharedCopy.faq.items.map(([question, answer]) => (
+          {sharedCopy.faq.items.map(([question, answer], index) => (
             <details className="reveal" key={question}>
-              <summary><span>{question}</span><span className="faq-plus" aria-hidden="true" /></summary>
-              <p>{answer}</p>
+              <summary><span data-copy-id={`faq-${index}-question`}>{question}</span><span className="faq-plus" aria-hidden="true" /></summary>
+              <p data-copy-id={`faq-${index}-answer`}>{answer}</p>
             </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function ComplementsSection() {
-  return (
-    <section className="section complements-section">
-      <div className="page-shell">
-        <Reveal className="complements-heading">
-          <p className="section-index">07</p>
-          <h2>{sharedCopy.complements.title}</h2>
-          <p>{sharedCopy.complements.description}</p>
-        </Reveal>
-        <div className="complements-grid">
-          {sharedCopy.complements.items.map(([title, text], index) => (
-            <Reveal className="complement-card" key={title}>
-              <span>0{index + 1}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </Reveal>
           ))}
         </div>
       </div>
@@ -352,10 +315,10 @@ function ClosingSection() {
       <div className="closing-image" aria-hidden="true" />
       <div className="page-shell closing-content">
         <Reveal>
-          <p className="section-index">08</p>
-          <h2>{sharedCopy.closing.title}</h2>
-          {sharedCopy.closing.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <Cta label={sharedCopy.closing.cta} />
+          <p className="section-index" aria-hidden="true">07</p>
+          <h2 data-copy-id="source-102">{sharedCopy.closing.title}</h2>
+          {sharedCopy.closing.paragraphs.map((paragraph, index) => <p data-copy-id={`source-${103 + index}`} key={paragraph}>{paragraph}</p>)}
+          <Cta label={sharedCopy.closing.cta} copyId="source-105" />
         </Reveal>
       </div>
     </section>
@@ -364,7 +327,7 @@ function ClosingSection() {
 
 function SalesPage({ hero }: { hero: HeroVariant }) {
   return (
-    <>
+    <div data-copy-root>
       <Hero hero={hero} />
       <main>
         <ProcessStrip />
@@ -375,23 +338,22 @@ function SalesPage({ hero }: { hero: HeroVariant }) {
         <AuthoritySection />
         <OfferSection />
         <FaqSection />
-        <ComplementsSection />
         <ClosingSection />
       </main>
-      <footer><div className="page-shell">Workshop Seu Próximo Passo na Prótese</div></footer>
-    </>
+      <footer><div data-copy-id="footer-title" className="page-shell">Workshop Seu Próximo Passo na Prótese</div></footer>
+    </div>
   )
 }
 
 function ThankYouPage() {
   return (
-    <main className="thanks-page">
+    <main data-copy-root className="thanks-page">
       <div className="thanks-visual" aria-hidden="true"><span>R</span><span>O</span><span>T</span><span>A</span></div>
       <div className="thanks-card">
-        <p className="kicker">WORKSHOP SEU PRÓXIMO PASSO NA PRÓTESE</p>
-        <h1>Inscrição confirmada.</h1>
-        <p>Obrigado. Sua inscrição no Workshop Seu Próximo Passo na Prótese foi confirmada.</p>
-        <a className="text-link" href="/a1">Voltar para a página do workshop <Arrow /></a>
+        <p data-copy-id="thanks-kicker" className="kicker">WORKSHOP SEU PRÓXIMO PASSO NA PRÓTESE</p>
+        <h1 data-copy-id="thanks-title">Inscrição confirmada.</h1>
+        <p data-copy-id="thanks-message">Obrigado. Sua inscrição no Workshop Seu Próximo Passo na Prótese foi confirmada.</p>
+        <a data-copy-id="thanks-return" className="text-link" href="/a1">Voltar para a página do workshop <Arrow /></a>
       </div>
     </main>
   )

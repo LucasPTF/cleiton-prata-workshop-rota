@@ -48,10 +48,21 @@ for (const lot of ['Lote 1', 'Lote 2', 'Lote 3', 'R$ 47', 'R$ 97', 'R$ 147']) {
   if (!source.includes(lot)) throw new Error(`Lote ou preço ausente: ${lot}`)
 }
 
-if (!source.includes('4 * 24 * 60 * 60 * 1000')) throw new Error('Prazo evergreen de quatro dias ausente')
-if (!source.includes("cleiton-prata-workshop-rota:evergreen-expiry:v1")) throw new Error('Chave persistente do cronômetro ausente')
-if (!source.includes('window.localStorage.getItem') || !source.includes('window.localStorage.setItem')) {
-  throw new Error('Persistência do cronômetro ausente')
+if (!source.includes('Date.parse(lotDeadline)')) throw new Error('Prazo fixo do lote ausente')
+if (!source.includes('O Lote 1 encerra em')) throw new Error('Objetivo do cronômetro ausente')
+if (source.includes('Date.now() +') || source.includes('window.localStorage')) {
+  throw new Error('O prazo do lote não pode ser reiniciado por visitante')
+}
+for (const term of [
+  ['Plano de ', '30 dias'].join(''),
+  ['próximos ', '30 dias'].join(''),
+  ['Agenda de Prática ', 'por 30 Dias'].join(''),
+  ['Checkout ', '— complementos opcionais'].join(''),
+]) {
+  if (source.includes(term)) throw new Error(`Texto substituído encontrado: ${term}`)
+}
+if ((readFileSync(resolve(root, 'src/main.tsx'), 'utf8').match(/sharedCopy\.authority\.proof/g) ?? []).length !== 1) {
+  throw new Error('A prova do workshop deve aparecer uma única vez')
 }
 
 console.log('Validação do projeto concluída com sucesso.')

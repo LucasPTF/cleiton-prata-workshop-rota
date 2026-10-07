@@ -143,7 +143,8 @@ blockquote { margin: 42px 0 0; padding: 30px 0 0; border-top: 1px solid #bfc3c1;
 .offer-section { color: var(--ink); background: #dce1e2; }
 .offer-timer { margin-bottom: clamp(54px, 7vw, 88px); }
 .countdown { display: grid; grid-template-columns: minmax(150px, .46fr) 1fr; gap: clamp(24px, 4vw, 58px); align-items: center; min-width: 0; padding: clamp(26px, 3.4vw, 42px); border: 1px solid #30363a; color: white; background: var(--ink); }
-.countdown > p { margin: 0; color: #aeb6ba; font-family: 'Manrope', sans-serif; font-size: .75rem; font-weight: 700; line-height: 1.5; letter-spacing: .14em; text-transform: uppercase; }
+.countdown-heading p { margin: 0; color: #aeb6ba; font-family: 'Manrope', sans-serif; font-size: .75rem; font-weight: 700; line-height: 1.5; letter-spacing: .14em; text-transform: uppercase; }
+.countdown-heading time { display: block; margin-top: 12px; color: #d0d6d9; font-size: .82rem; line-height: 1.6; }
 .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #3a4044; }
 .countdown-unit { display: grid; min-width: 0; gap: 7px; padding: 18px 10px; background: #171a1d; text-align: center; }
 .countdown-unit strong { font-family: 'Manrope', sans-serif; font-size: clamp(1.7rem, 3.2vw, 2.8rem); line-height: 1; letter-spacing: -.05em; }
