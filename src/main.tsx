@@ -353,6 +353,9 @@ function ThankYouPage() {
         <p data-copy-id="thanks-kicker" className="kicker">WORKSHOP SEU PRÓXIMO PASSO NA PRÓTESE</p>
         <h1 data-copy-id="thanks-title">Inscrição confirmada.</h1>
         <p data-copy-id="thanks-message">Obrigado. Sua inscrição no Workshop Seu Próximo Passo na Prótese foi confirmada.</p>
+        <button data-copy-id="thanks-whatsapp" className="cta thanks-whatsapp" type="button" disabled>
+          <span>ENTRAR NO GRUPO DO WHATSAPP</span><Arrow />
+        </button>
         <a data-copy-id="thanks-return" className="text-link" href="/a1">Voltar para a página do workshop <Arrow /></a>
       </div>
     </main>
