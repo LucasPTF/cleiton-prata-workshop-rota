@@ -5,10 +5,6 @@ export type HeroVariant = {
   cta: string
 }
 
-export const checkoutUrl = 'https://pay.hotmart.com/S107483590M?bid=1789599580879'
-
-export const lotDeadline = '2026-10-09T19:00:00-03:00'
-
 export const heroVariants: Record<'a1' | 'a2' | 'a3', HeroVariant> = {
   a1: {
     kicker: 'WORKSHOP AO VIVO PARA TPDs EM FORMAÇÃO FINAL, RECÉM-FORMADOS E TÉCNICOS EM TRANSIÇÃO',
@@ -143,20 +139,13 @@ export const sharedCopy = {
   offer: {
     title: 'Sua inscrição',
     countdown: {
-      label: 'O Lote 1 encerra em',
       expired: 'Prazo encerrado',
-      date: '9 de outubro de 2026, às 19h (horário de Brasília)',
       units: ['Dias', 'Horas', 'Minutos', 'Segundos'],
     },
-    lots: [
-      ['Lote 1', 'R$ 47'],
-      ['Lote 2', 'R$ 97'],
-      ['Lote 3', 'R$ 147'],
-    ],
     rows: [
       ['Workshop', 'Seu Próximo Passo na Prótese'],
       ['Formato', 'Ao vivo, em grupo'],
-      ['Data e horário', '10 de outubro de 2026, às 19h (horário de Brasília)'],
+      ['Data e horário', '12 de dezembro de 2026, às 14h (horário de Brasília)'],
       ['Duração', '2h30'],
       ['Método', 'R.O.T.A — Realidade, Objetivo, Trajetória e Ação'],
       ['Demonstração', 'Desenho 3D → impressão → adaptação → caso final em cerâmica'],

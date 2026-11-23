@@ -1,9 +1,12 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
+import assert from 'node:assert/strict'
+import { getRegistration } from '../src/registration.ts'
 
 const root = resolve(import.meta.dirname, '..')
 const source = [
   'src/content.ts',
+  'src/registration.ts',
   'src/main.tsx',
   'src/styles.css',
   'index.html',
@@ -48,8 +51,20 @@ for (const lot of ['Lote 1', 'Lote 2', 'Lote 3', 'R$ 47', 'R$ 97', 'R$ 147']) {
   if (!source.includes(lot)) throw new Error(`Lote ou preço ausente: ${lot}`)
 }
 
-if (!source.includes('Date.parse(lotDeadline)')) throw new Error('Prazo fixo do lote ausente')
-if (!source.includes('O Lote 1 encerra em')) throw new Error('Objetivo do cronômetro ausente')
+for (const [time, expected] of [
+  ['2026-11-22T23:59:59.999-03:00', 'upcoming'],
+  ['2026-11-23T00:00:00-03:00', 'Lote 1'],
+  ['2026-12-02T23:59:59.999-03:00', 'Lote 1'],
+  ['2026-12-03T00:00:00-03:00', 'Lote 2'],
+  ['2026-12-07T23:59:59.999-03:00', 'Lote 2'],
+  ['2026-12-08T00:00:00-03:00', 'Lote 3'],
+  ['2026-12-12T23:59:59.999-03:00', 'Lote 3'],
+  ['2026-12-13T00:00:00-03:00', 'closed'],
+]) {
+  const state = getRegistration(Date.parse(time))
+  assert.equal(state.status === 'open' ? state.lot.name : state.status, expected, time)
+}
+assert.ok(!source.includes('bid=1789599580879'), 'Checkout antigo ainda presente')
 if (source.includes('Date.now() +') || source.includes('window.localStorage')) {
   throw new Error('O prazo do lote não pode ser reiniciado por visitante')
 }

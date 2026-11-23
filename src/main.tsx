@@ -1,6 +1,7 @@
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { checkoutUrl, heroVariants, lotDeadline, sharedCopy, type HeroVariant } from './content'
+import { heroVariants, sharedCopy, type HeroVariant } from './content'
+import { getRegistration, groupUrl, lots, registrationOpens, type Lot } from './registration'
 import './styles.css'
 
 const Arrow = () => (
@@ -21,10 +22,23 @@ const Cross = () => (
   </svg>
 )
 
-function Cta({ label, copyId, className = '' }: { label: string; copyId: string; className?: string }) {
+function Cta({ label, copyId, lot, unavailableLabel, className = '' }: {
+  label: string; copyId: string; lot?: Lot; unavailableLabel: string; className?: string
+}) {
+  const classes = `cta ${className}`.trim()
+  if (!lot) {
+    return (
+      <button className={classes} type="button" disabled>
+        <span data-copy-id={copyId}>{unavailableLabel}</span>
+      </button>
+    )
+  }
   return (
-    <a className={`cta ${className}`.trim()} href={checkoutUrl}>
-      <span data-copy-id={copyId}>{label}</span>
+    <a className={classes} href={lot.url} onClick={(event) => {
+      const registration = getRegistration(Date.now())
+      if (registration.status !== 'open' || registration.lot !== lot) event.preventDefault()
+    }}>
+      <span data-copy-id={copyId}>{label.replace('R$ 47', () => lot.price)}</span>
       <Arrow />
     </a>
   )
@@ -34,7 +48,7 @@ function Reveal({ children, className = '' }: { children: React.ReactNode; class
   return <div className={`reveal ${className}`.trim()}>{children}</div>
 }
 
-function Hero({ hero }: { hero: HeroVariant }) {
+function Hero({ hero, lot, unavailableLabel }: { hero: HeroVariant; lot?: Lot; unavailableLabel: string }) {
   return (
     <header className="hero">
       <div className="hero-grid page-shell">
@@ -42,7 +56,7 @@ function Hero({ hero }: { hero: HeroVariant }) {
           <p data-copy-id="hero-kicker" className="kicker hero-enter hero-enter-1">{hero.kicker}</p>
           <h1 data-copy-id="hero-title" className="hero-enter hero-enter-2">{hero.title}</h1>
           <p data-copy-id="hero-description" className="hero-description hero-enter hero-enter-3">{hero.description}</p>
-          <Cta label={hero.cta} copyId="hero-cta" className="hero-enter hero-enter-4" />
+          <Cta label={hero.cta} copyId="hero-cta" lot={lot} unavailableLabel={unavailableLabel} className="hero-enter hero-enter-4" />
         </div>
         <div className="hero-media hero-enter hero-enter-3" data-motion-viewport>
           <div className="hero-frame">
@@ -61,7 +75,9 @@ function Hero({ hero }: { hero: HeroVariant }) {
         <div className="page-shell identity-grid">
           <strong data-copy-id="source-3">{sharedCopy.identity.title}</strong>
           <span data-copy-id="source-4">{sharedCopy.identity.details}</span>
-          <span data-copy-id="source-5">{sharedCopy.identity.meta}</span>
+          <span data-copy-id="source-5">{lot
+            ? sharedCopy.identity.meta.replace('R$ 47', () => lot.price)
+            : sharedCopy.identity.meta.replace('Entrada: R$ 47 • ', '')}</span>
         </div>
       </div>
     </header>
@@ -126,7 +142,7 @@ function MethodSection() {
   )
 }
 
-function ScheduleSection() {
+function ScheduleSection({ lot, unavailableLabel }: { lot?: Lot; unavailableLabel: string }) {
   return (
     <section className="section section-dark">
       <div className="page-shell">
@@ -153,7 +169,7 @@ function ScheduleSection() {
             <div data-copy-id="source-57" className="process-caption">{sharedCopy.authority.proof}</div>
           </Reveal>
         </div>
-        <Reveal className="section-cta"><Cta label={sharedCopy.schedule.cta} copyId="source-43" /></Reveal>
+        <Reveal className="section-cta"><Cta label={sharedCopy.schedule.cta} copyId="source-43" lot={lot} unavailableLabel={unavailableLabel} /></Reveal>
       </div>
     </section>
   )
@@ -209,8 +225,7 @@ function splitCountdown(remainingMs: number) {
   return [days, hours, minutes, seconds]
 }
 
-function LotCountdown() {
-  const expiry = Date.parse(lotDeadline)
+function LotCountdown({ expiry, date, dateLabel, label }: { expiry: number; date: string; dateLabel: string; label: string }) {
   const [remaining, setRemaining] = useState(() => Math.max(0, expiry - Date.now()))
 
   useEffect(() => {
@@ -228,8 +243,8 @@ function LotCountdown() {
   return (
     <div className={`countdown ${isExpired ? 'is-expired' : ''}`} role="timer" aria-live="off" aria-atomic="true">
       <div className="countdown-heading">
-        <p data-copy-id="deadline-label">{isExpired ? sharedCopy.offer.countdown.expired : sharedCopy.offer.countdown.label}</p>
-        <time data-copy-id="deadline-date" dateTime={lotDeadline}>{sharedCopy.offer.countdown.date}</time>
+        <p data-copy-id="deadline-label">{label}</p>
+        <time data-copy-id="deadline-date" dateTime={date}>{dateLabel}</time>
       </div>
       <div className="countdown-grid">
         {sharedCopy.offer.countdown.units.map((unit, index) => (
@@ -243,24 +258,32 @@ function LotCountdown() {
   )
 }
 
-function LotComparison() {
+function LotComparison({ lot }: { lot?: Lot }) {
   return (
     <div className="lot-grid" aria-label="Lotes">
-      {sharedCopy.offer.lots.map(([name, price], index) => (
-        <div className={`lot-card ${index === 0 ? 'is-current' : ''}`} key={name} aria-current={index === 0 ? 'true' : undefined}>
-          <span data-copy-id={`lot-${index}-name`}>{name}</span>
-          <strong data-copy-id={`lot-${index}-price`}>{price}</strong>
+      {lots.map((entry, index) => (
+        <div className={`lot-card ${entry === lot ? 'is-current' : ''}`} key={entry.name} aria-current={entry === lot ? 'true' : undefined}>
+          <span data-copy-id={`lot-${index}-name`}>{entry.name}</span>
+          <strong data-copy-id={`lot-${index}-price`}>{entry.price}</strong>
         </div>
       ))}
     </div>
   )
 }
 
-function OfferSection() {
+function OfferSection({ lot, upcoming, unavailableLabel }: { lot?: Lot; upcoming: boolean; unavailableLabel: string }) {
+  const deadlineLot = lot ?? lots[2]
+  const expiry = upcoming ? registrationOpens : deadlineLot.endsAt
   return (
     <section className="section offer-section" id="inscricao">
       <Reveal className="offer-timer page-shell">
-        <LotCountdown />
+        <LotCountdown
+          key={expiry}
+          expiry={expiry}
+          date={upcoming ? '2026-11-23T00:00:00-03:00' : `${deadlineLot.endDate}T23:59:00-03:00`}
+          dateLabel={upcoming ? '23 de novembro de 2026, à meia-noite (horário de Brasília)' : deadlineLot.endLabel}
+          label={lot ? `O ${lot.name} encerra em` : upcoming ? 'As inscrições abrem em' : unavailableLabel}
+        />
       </Reveal>
       <div className="page-shell offer-grid">
         <Reveal className="offer-copy">
@@ -269,26 +292,26 @@ function OfferSection() {
           <div className="offer-table">
             {sharedCopy.offer.rows.map(([label, value], index) => (
               <div className="offer-row" key={label}>
-                <span data-copy-id={`offer-row-${index}-label`}>{label}</span><strong data-copy-id={`offer-row-${index}-value`}>{value}</strong>
+                <span data-copy-id={`offer-row-${index}-label`}>{label}</span><strong data-copy-id={`offer-row-${index}-value`}>{label === 'Investimento' ? lot?.price ?? unavailableLabel : value}</strong>
               </div>
             ))}
           </div>
-          <Cta label={sharedCopy.offer.cta} copyId="source-73" />
+          <Cta label={sharedCopy.offer.cta} copyId="source-73" lot={lot} unavailableLabel={unavailableLabel} />
           <p data-copy-id="source-74" className="offer-note">{sharedCopy.offer.note}</p>
         </Reveal>
         <div className="offer-media-stack">
           <Reveal className="offer-media">
             <img src="/images/coroa-ceramica.webp" alt="Coroa em cerâmica em processo de finalização" width="4288" height="2848" loading="lazy" />
-            <div className="offer-price"><small data-copy-id="photo-price-label">Investimento</small><strong data-copy-id="photo-price-value">R$ 47</strong></div>
+            {lot && <div className="offer-price"><small data-copy-id="photo-price-label">Investimento</small><strong data-copy-id="photo-price-value">{lot.price}</strong></div>}
           </Reveal>
-          <Reveal className="offer-lots"><LotComparison /></Reveal>
+          <Reveal className="offer-lots"><LotComparison lot={lot} /></Reveal>
         </div>
       </div>
     </section>
   )
 }
 
-function FaqSection() {
+function FaqSection({ lot, unavailableLabel }: { lot?: Lot; unavailableLabel: string }) {
   return (
     <section className="section faq-section">
       <div className="page-shell faq-grid">
@@ -300,7 +323,9 @@ function FaqSection() {
           {sharedCopy.faq.items.map(([question, answer], index) => (
             <details className="reveal" key={question}>
               <summary><span data-copy-id={`faq-${index}-question`}>{question}</span><span className="faq-plus" aria-hidden="true" /></summary>
-              <p data-copy-id={`faq-${index}-answer`}>{answer}</p>
+              <p data-copy-id={`faq-${index}-answer`}>{question === 'Quanto custa?'
+                ? lot === lots[2] ? `O lote atual custa ${lot.price}.` : lot ? answer.replace('R$ 47', () => lot.price) : unavailableLabel
+                : answer}</p>
             </details>
           ))}
         </div>
@@ -309,7 +334,7 @@ function FaqSection() {
   )
 }
 
-function ClosingSection() {
+function ClosingSection({ lot, unavailableLabel }: { lot?: Lot; unavailableLabel: string }) {
   return (
     <section className="closing-section">
       <div className="closing-image" aria-hidden="true" />
@@ -318,7 +343,7 @@ function ClosingSection() {
           <p className="section-index" aria-hidden="true">07</p>
           <h2 data-copy-id="source-102">{sharedCopy.closing.title}</h2>
           {sharedCopy.closing.paragraphs.map((paragraph, index) => <p data-copy-id={`source-${103 + index}`} key={paragraph}>{paragraph}</p>)}
-          <Cta label={sharedCopy.closing.cta} copyId="source-105" />
+          <Cta label={sharedCopy.closing.cta} copyId="source-105" lot={lot} unavailableLabel={unavailableLabel} />
         </Reveal>
       </div>
     </section>
@@ -326,19 +351,47 @@ function ClosingSection() {
 }
 
 function SalesPage({ hero }: { hero: HeroVariant }) {
+  const [registration, setRegistration] = useState(() => getRegistration(Date.now()))
+  const lot = registration.status === 'open' ? registration.lot : undefined
+  const upcoming = registration.status === 'upcoming'
+  const unavailableLabel = upcoming ? 'Inscrições ainda não abertas' : sharedCopy.offer.countdown.expired
+
+  useEffect(() => {
+    let timeout: number | undefined
+    function syncRegistration() {
+      window.clearTimeout(timeout)
+      const now = Date.now()
+      const next = getRegistration(now)
+      setRegistration((current) => current.status === next.status &&
+        (current.status !== 'open' || (next.status === 'open' && current.lot === next.lot)) ? current : next)
+      if (next.status !== 'closed') {
+        const boundary = next.status === 'open' ? next.lot.endsAt : registrationOpens
+        timeout = window.setTimeout(syncRegistration, Math.min(boundary - now, 2_147_483_647))
+      }
+    }
+    syncRegistration()
+    document.addEventListener('visibilitychange', syncRegistration)
+    window.addEventListener('pageshow', syncRegistration)
+    return () => {
+      window.clearTimeout(timeout)
+      document.removeEventListener('visibilitychange', syncRegistration)
+      window.removeEventListener('pageshow', syncRegistration)
+    }
+  }, [])
+
   return (
     <div data-copy-root>
-      <Hero hero={hero} />
+      <Hero hero={hero} lot={lot} unavailableLabel={unavailableLabel} />
       <main>
         <ProcessStrip />
         <ProblemSection />
         <MethodSection />
-        <ScheduleSection />
+        <ScheduleSection lot={lot} unavailableLabel={unavailableLabel} />
         <FitSection />
         <AuthoritySection />
-        <OfferSection />
-        <FaqSection />
-        <ClosingSection />
+        <OfferSection lot={lot} upcoming={upcoming} unavailableLabel={unavailableLabel} />
+        <FaqSection lot={lot} unavailableLabel={unavailableLabel} />
+        <ClosingSection lot={lot} unavailableLabel={unavailableLabel} />
       </main>
       <footer><div data-copy-id="footer-title" className="page-shell">Workshop Seu Próximo Passo na Prótese</div></footer>
     </div>
@@ -353,9 +406,9 @@ function ThankYouPage() {
         <p data-copy-id="thanks-kicker" className="kicker">WORKSHOP SEU PRÓXIMO PASSO NA PRÓTESE</p>
         <h1 data-copy-id="thanks-title">Inscrição confirmada.</h1>
         <p data-copy-id="thanks-message">Obrigado. Sua inscrição no Workshop Seu Próximo Passo na Prótese foi confirmada.</p>
-        <button data-copy-id="thanks-whatsapp" className="cta thanks-whatsapp" type="button" disabled>
+        <a data-copy-id="thanks-whatsapp" className="cta thanks-whatsapp" href={groupUrl}>
           <span>ENTRAR NO GRUPO DO WHATSAPP</span><Arrow />
-        </button>
+        </a>
         <a data-copy-id="thanks-return" className="text-link" href="/a1">Voltar para a página do workshop <Arrow /></a>
       </div>
     </main>
